@@ -1,0 +1,17 @@
+{
+	"modules": "wp-content/themes/singlecase/views/Modules",
+	"src": {
+		"root": "src",
+		"styles": {
+			"root": "src/scss",
+			"app": "src/scss/application.scss"
+		},
+		"js": {
+			"root": "src/js",
+			"app": "src/js/application.js"
+		}
+	},
+	"dist": {
+		"build": "dist"
+	}
+}

@@ -1,0 +1,8 @@
+/.idea
+/node_modules
+/wp-config.php
+gulp.local.json
+.DS_Store
+*.log
+/.gtm/
+.vscode
