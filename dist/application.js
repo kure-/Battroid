@@ -3627,7 +3627,49 @@ if ( typeof define === "function" && define.amd ) {
 })( window );
 
 var Battroid = function Battroid() {
-	console.log('foo');
+	if(!this.isBatteryApiSupported()) {
+		return console.info('Battery API not supported');
+	} else {
+		this.checkBattery();
+		console.log(this.battery);
+		this.bindListeners(this.battery);
+	}
+};
+
+Battroid.prototype.checkBattery = function checkBattery () {
+	var that = this;
+	navigator.getBattery().then(function (battery) {
+		that.battery = battery;
+	});
+
+	return this.battery;
+};
+
+Battroid.prototype.getChargeInfo = function getChargeInfo (battery) {
+	return battery.charging;
+};
+
+Battroid.prototype.getBatteryLevel = function getBatteryLevel (battery) {
+	return battery.level;
+};
+
+Battroid.prototype.isBatteryApiSupported = function isBatteryApiSupported () {
+	return typeof navigator.getBattery === "function" ? true : false;
+};
+
+Battroid.prototype.bindListeners = function bindListeners (battery) {
+	battery.addEventListener('chargingtimechange', function (e) {
+		console.log(battery.chargingTime + ' seconds');
+	});
+
+	battery.addEventListener('chargingchange', function (e) {
+		console.log(battery.charging ? "yes" : "no");
+			
+	});
+
+	battery.addEventListener('dischargingtimechange', function (e) {
+		console.log(battery.dischargingTime + " seconds");
+	});
 };
 
 var fokume = new Battroid();

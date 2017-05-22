@@ -24,7 +24,6 @@ var gutil = require('gulp-util');
 var commonjs = require('rollup-plugin-commonjs');
 
 var config = require('./gulp.config.json');
-var local = require('./gulp.local.json');
 
 var includePaths = {
 	paths: ['src/js'],
@@ -51,7 +50,7 @@ gulp.task('sass', function() {
 gulp.task('sass-build', ['sass'], function() {
 	return gulp.src(config.dist.build + '/application.css')
 		.pipe(autoprefixer({
-			browsers: ['> 1%', 'IE 9']
+			browsers: ['> 1%', 'IE 10']
 		}))
 		.pipe(cssnano())
 		.pipe(gulp.dest(config.dist.build));
@@ -78,13 +77,15 @@ gulp.task('js', function() {
 });
 
 gulp.task('watch', ['sass', 'js'], function() {
-	gulp.watch([config.src.styles.root + '/*.scss', config.modules + '/**/*.scss'], ['sass']);
-	gulp.watch([config.src.js.root + '/*.js', config.modules + '/**/*.js', config.src.js.root + '/utils/*.js'], ['js']);
+	gulp.watch([config.src.styles.root + '/*.scss'], ['sass']);
+	gulp.watch([config.src.js.root + '/*.js', config.src.js.root + '/utils/*.js'], ['js']);
 });
 
 gulp.task('serve', ['watch', 'build'], function() {
 	bs.init({
-		proxy: local.url
+		server: {
+			baseDir: "./"
+		}
 	});
 });
 

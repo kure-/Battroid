@@ -1,5 +1,4 @@
 {
-	"modules": "wp-content/themes/singlecase/views/Modules",
 	"src": {
 		"root": "src",
 		"styles": {
