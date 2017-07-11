@@ -1,7 +1,11 @@
 import 'webfontloader/webfontloader';
 import Battroid from './Battroid';
 
-var fokume = new Battroid();
+var fokume = new Battroid({
+	render: true,
+	template: false,
+	targetElement: '#Content'
+});
 
 WebFontConfig = {
 	google: {
