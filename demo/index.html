@@ -7,6 +7,10 @@
 	<body>
 		<div id="Content">
 		</div>
+		<script id="entry-template" type="text/x-handlebars-template">
+			<h1>Custom template!</h1>
+			<p>Battery level: {{percentage data.level}}</p><p>Battery Charging: {{data.charging}}</p><p>Battery discharging time: {{parseSeconds data.dischargingTime}}</p><p>Battery charging time: {{parseSeconds data.chargingTime}}</p>
+		</script>
 		<script src="../dist/application.js"></script>
 	</body>
 </html>

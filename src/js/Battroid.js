@@ -59,7 +59,7 @@ export default class Battroid {
 
 			Handlebars.registerHelper("percentage", (number) => {
 				if(!isNaN(number)) {
-					return number * 100 + '%';
+					return (number * 100).toFixed() + '%';
 				} else {
 					return number;
 				}

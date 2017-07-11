@@ -1,9 +1,9 @@
 import 'webfontloader/webfontloader';
 import Battroid from './Battroid';
 
-var fokume = new Battroid({
+const BattroidExample = new Battroid({
 	render: true,
-	template: false,
+	template: document.getElementById('entry-template').innerHTML,
 	targetElement: '#Content'
 });
 

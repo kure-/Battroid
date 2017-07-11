@@ -8565,7 +8565,7 @@ Battroid.prototype.registerHandleBarsHelpers = function registerHandleBarsHelper
 
 		Handlebars.registerHelper("percentage", function (number) {
 			if(!isNaN(number)) {
-				return number * 100 + '%';
+				return (number * 100).toFixed() + '%';
 			} else {
 				return number;
 			}
@@ -8612,9 +8612,9 @@ function secondsToHms(d) {
 	return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
 };
 
-var fokume = new Battroid({
+var BattroidExample = new Battroid({
 	render: true,
-	template: false,
+	template: document.getElementById('entry-template').innerHTML,
 	targetElement: '#Content'
 });
 
