@@ -6,10 +6,23 @@
 	</head>
 	<body>
 		<div id="Content">
+			<div class="Battroid" id="battroid">
+			</div>
 		</div>
 		<script id="entry-template" type="text/x-handlebars-template">
-			<h1>Custom template!</h1>
-			<p>Battery level: {{percentage data.level}}</p><p>Battery Charging: {{data.charging}}</p><p>Battery discharging time: {{parseSeconds data.dischargingTime}}</p><p>Battery charging time: {{parseSeconds data.chargingTime}}</p>
+			
+			<div class="Battroid-header">
+			</div>
+			<div class="Battroid-content">
+				<div class="Battery" title="Battery level at {{percentage data.level}}">
+					<div class="Battery-indicator" style="width: {{percentage data.level}}"></div>
+				</div>
+
+				<p>Battery Charging: {{data.charging}}</p><p>Battery discharging time: {{parseSeconds data.dischargingTime}}</p><p>Battery charging time: {{parseSeconds data.chargingTime}}</p>
+			</div>
+			<div class="Battroid-footer">
+
+			</div>
 		</script>
 		<script src="../dist/application.js"></script>
 	</body>

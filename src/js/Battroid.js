@@ -25,23 +25,35 @@ export default class Battroid {
 	}
 
 	isBatteryApiSupported() {
-		return typeof navigator.getBattery === "function" ? true : false;
+		return typeof navigator.getBattery === "function";
 	}
 
 	bindListeners(battery) {
 		battery.addEventListener('chargingtimechange', (e) => {
+			if(this.options.onChargingTimeChange) {
+				this.options.onChargingTimeChange(this);
+			}
 			this.render();
 		});
 
 		battery.addEventListener('chargingchange', (e) => {
+			if(this.options.onChargingChange) {
+				this.options.onChargingChange(this);
+			}
 			this.render();
 		});
 
 		battery.addEventListener('dischargingtimechange', (e) => {
+			if(this.options.onDischargingTimeChange) {
+				this.options.onDischargingTimeChange(this);
+			}
 			this.render();
 		});
 
 		battery.addEventListener('levelchange', (e) => {
+			if(this.options.onLevelChange) {
+				this.options.onLevelChange(this);
+			}
 			this.render();
 		});
 	}

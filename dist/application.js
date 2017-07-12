@@ -8529,25 +8529,37 @@ Battroid.prototype.getBattery = function getBattery (options) {
 };
 
 Battroid.prototype.isBatteryApiSupported = function isBatteryApiSupported () {
-	return typeof navigator.getBattery === "function" ? true : false;
+	return typeof navigator.getBattery === "function";
 };
 
 Battroid.prototype.bindListeners = function bindListeners (battery) {
 		var this$1 = this;
 
 	battery.addEventListener('chargingtimechange', function (e) {
+		if(this$1.options.onChargingTimeChange) {
+			this$1.options.onChargingTimeChange(this$1);
+		}
 		this$1.render();
 	});
 
 	battery.addEventListener('chargingchange', function (e) {
+		if(this$1.options.onChargingChange) {
+			this$1.options.onChargingChange(this$1);
+		}
 		this$1.render();
 	});
 
 	battery.addEventListener('dischargingtimechange', function (e) {
+		if(this$1.options.onDischargingTimeChange) {
+			this$1.options.onDischargingTimeChange(this$1);
+		}
 		this$1.render();
 	});
 
 	battery.addEventListener('levelchange', function (e) {
+		if(this$1.options.onLevelChange) {
+			this$1.options.onLevelChange(this$1);
+		}
 		this$1.render();
 	});
 };
@@ -8612,10 +8624,14 @@ function secondsToHms(d) {
 	return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
 };
 
+var batteryWidget = document.getElementById('battroid');
+
 var BattroidExample = new Battroid({
 	render: true,
 	template: document.getElementById('entry-template').innerHTML,
-	targetElement: '#Content'
+	targetElement: '#battroid',
+	onLevelChange: shouldShowWidget,
+	onChargingChange: shouldShowWidget
 });
 
 WebFontConfig = {
@@ -8625,3 +8641,23 @@ WebFontConfig = {
 };
 
 WebFont.load(WebFontConfig);
+
+function shouldShowWidget(battery) {
+	if(battery.battery.level < 0.8) {
+		showWidget();
+	} else {
+		hideWidget();
+	}
+}
+
+function showWidget() {
+	if(batteryWidget) {
+		batteryWidget.classList.add('Battroid--visible');
+	}
+}
+
+function hideWidget() {
+	if(batteryWidget) {
+		batteryWidget.classList.remove('Battroid--visible');
+	}
+}

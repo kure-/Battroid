@@ -1,0 +1,30 @@
+// Media query mixins - use like so: @include mobile {...} 
+
+// for mobiles
+@mixin mobile {
+	@media (min-width: map-get($grid-breakpoints, sm)) {
+		@content;
+	}
+}
+
+
+// for tablets in portrait orientation
+@mixin portrait {
+	@media (min-width: map-get($grid-breakpoints, md)) {
+		@content;
+	}
+}
+
+// for tablets in landscape orientation
+@mixin landscape {
+	@media (min-width: map-get($grid-breakpoints, lg)) {
+		@content;
+	}
+}
+
+// for desktops
+@mixin desktop {
+	@media (min-width: map-get($grid-breakpoints, xl)) {
+		@content;
+	}
+}

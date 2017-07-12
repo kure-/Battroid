@@ -1,0 +1,35 @@
+.Battery {
+  display: inline-flex;
+  width: 40px;
+  height: 20px;
+  position: relative;
+  border: 3px solid black;
+  align-items: center; }
+  .Battery:after {
+    width: 6px;
+    height: 10px;
+    border-radius: 0 2px 2px 0;
+    display: block;
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: black; }
+  .Battery-indicator {
+    background: black;
+    height: 100%; }
+
+.Battroid {
+  position: fixed;
+  transition: all 500ms cubic-bezier(0.2, 0.805, 0.765, 0.995);
+  right: 0;
+  bottom: 0;
+  transform: translateY(100%);
+  width: 320px; }
+  .Battroid--visible {
+    transform: translateY(0); }
+  .Battroid-header {
+    padding: 15px; }
+  .Battroid-content {
+    padding: 15px; }
