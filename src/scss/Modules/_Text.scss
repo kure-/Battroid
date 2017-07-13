@@ -1,0 +1,28 @@
+.Text {
+	line-height: 1.6;
+	margin: 0;
+}
+
+.Text--branded {
+	color: $color-brand;
+}
+
+.Text--accented {
+	color: $color-accent;
+}
+
+.Text--light {
+	color: $color-light;
+}
+
+.Text--uppercase {
+	text-transform: uppercase;
+}
+
+.Text--small {
+	font-size: 0.8rem;
+}
+
+.Text--spacedTop {
+	margin-top: 0.5rem;
+}

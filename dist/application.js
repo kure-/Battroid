@@ -8511,7 +8511,7 @@ var template = '<p>Battery level: {{percentage data.level}}</p><p>Battery Chargi
 
 var Battroid = function Battroid(options) {
 	if(!this.isBatteryApiSupported()) {
-		return console.warn('Battery API not supported');
+		return console.warn('Battery API not supported.');
 	} else {
 		this.getBattery(options);
 	}
@@ -8625,25 +8625,18 @@ function secondsToHms(d) {
 };
 
 var batteryWidget = document.getElementById('battroid');
+var battroidBookmark = document.getElementById('bookmark-page');
 
 var BattroidExample = new Battroid({
 	render: true,
 	template: document.getElementById('entry-template').innerHTML,
-	targetElement: '#battroid',
+	targetElement: '#battroid-content',
 	onLevelChange: shouldShowWidget,
 	onChargingChange: shouldShowWidget
 });
 
-WebFontConfig = {
-	google: {
-		families: ['Merriweather:300,300i,400,400i,700,700i:latin-ext']
-	}
-};
-
-WebFont.load(WebFontConfig);
-
 function shouldShowWidget(battery) {
-	if(battery.battery.level < 0.8) {
+	if(battery.battery.level < 0.35 && !battery.battery.charging) {
 		showWidget();
 	} else {
 		hideWidget();
@@ -8660,4 +8653,38 @@ function hideWidget() {
 	if(batteryWidget) {
 		batteryWidget.classList.remove('Battroid--visible');
 	}
+}
+
+function bookmarkPage() {
+	var bookmarkURL = window.location.href;
+	var bookmarkTitle = document.title;
+
+	if ('addToHomescreen' in window && window.addToHomescreen.isCompatible) {
+		// Mobile browsers
+		addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
+	} else if (window.sidebar && window.sidebar.addPanel) {
+		// Firefox version < 23
+		window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+	} else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
+		// Firefox version >= 23 and Opera Hotlist
+		$(this).attr({
+			href: bookmarkURL,
+			title: bookmarkTitle,
+			rel: 'sidebar'
+		}).off(e);
+		return true;
+	} else if (window.external && ('AddFavorite' in window.external)) {
+		// IE Favorite
+		window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+	} else {
+		// Other browsers (mainly WebKit - Chrome/Safari)
+		alert('Please press ' + (/Mac/i.test(navigator.userAgent) ? 'CMD' : 'Strg') + ' + D to add this page to your favorites.');
+	}
+}
+
+if(battroidBookmark) {
+	battroidBookmark.addEventListener('click', function (e) {
+		e.preventDefault();
+		bookmarkPage();
+	});
 }

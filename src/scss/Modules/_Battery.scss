@@ -3,8 +3,13 @@
 	width: 40px;
 	height: 20px;
 	position: relative;
-	border: 3px solid black;
+	border: 3px solid $color-brand--active;
 	align-items: center;
+	background: $color-light;
+
+	&--spacedLeft {
+		margin-left: 0.5rem;
+	}
 
 	&:after {
 		width: 6px;
@@ -16,12 +21,34 @@
 		left: 100%;
 		top: 50%;
 		transform: translateY(-50%);
-		background: black;
+		background: $color-brand--active;
 	}
 	
 	&-indicator {
-		background: black;
+		background: $color-brand;
 		height: 100%;
+	}
+
+	&-text {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		text-align: center;
+		width: 100%;
+		color: $color-bg;
+		font-size: 0.8rem;
+		opacity: 0;
+		visibility: hidden;
+		transition: all ease 250ms;
+	}
+
+	&:hover {
+		.Battery-text {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
 }

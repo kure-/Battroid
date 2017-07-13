@@ -7,7 +7,7 @@ import template from './templates';
 export default class Battroid {
 	constructor(options) {
 		if(!this.isBatteryApiSupported()) {
-			return console.warn('Battery API not supported');
+			return console.warn('Battery API not supported.');
 		} else {
 			this.getBattery(options);
 		}

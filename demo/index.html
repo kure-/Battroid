@@ -3,26 +3,45 @@
 	<head>
 		<title>Battroid Demo</title>
 		<link rel="stylesheet" href="../dist/application.css">
+		<style>
+			html, body {
+				font-family: sans-serif;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="Content">
-			<div class="Battroid" id="battroid">
+			<div class="Battroid Battroid--visible" id="battroid">
+				<div class="Battroid-header">
+					<h2 class="Heading Heading--small Heading--flexed">
+						<span class="Text Text--branded Text--uppercase">Batt</span>
+						<span class="Text Text--light">roid</span>
+					</h2>
+					<div class="Battroid-controls">
+						<button class="Battroid-button" id="battroid-minimize" title="Minimize">_</button>
+						<button class="Battroid-button" id="battroid-discard" title="Discard">✗</button>
+					</div>
+				</div>
+				<div class="Battroid-content" id="battroid-content">
+				</div>
+				<div class="Battroid-footer Text Text--small">
+					Perhaps you may want to <a href="#" id="bookmark-page" class="Battroid-bookmark">bookmark</a> our page to check back on later ;-)
+				</div>
 			</div>
 		</div>
+
 		<script id="entry-template" type="text/x-handlebars-template">
-			
-			<div class="Battroid-header">
-			</div>
-			<div class="Battroid-content">
-				<div class="Battery" title="Battery level at {{percentage data.level}}">
+			<h3 class="Heading Heading--tiny Heading--spacedBottomSmall">Hey!</h3>
+			<div class="Battroid-introduction">
+				<span>You're low on</span>
+				<div class="Battery Battery--spacedLeft {{#if data.level < 0.35}}Battery--blinking{{/if}}" title="Battery level at {{percentage data.level}}">
 					<div class="Battery-indicator" style="width: {{percentage data.level}}"></div>
+					<span class="Battery-text">{{percentage data.level}}</span>
 				</div>
-
-				<p>Battery Charging: {{data.charging}}</p><p>Battery discharging time: {{parseSeconds data.dischargingTime}}</p><p>Battery charging time: {{parseSeconds data.chargingTime}}</p>
 			</div>
-			<div class="Battroid-footer">
-
-			</div>
+			<p class="Battroid-copy Text Text--small Text--spacedTop">
+				And you are {{#unless data.charging}}not{{/unless}} charging your battery! You have approximately {{parseSeconds data.dischargingTime}} left untill you run out!
+			</p>
 		</script>
 		<script src="../dist/application.js"></script>
 	</body>

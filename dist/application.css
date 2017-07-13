@@ -3,8 +3,11 @@
   width: 40px;
   height: 20px;
   position: relative;
-  border: 3px solid black;
-  align-items: center; }
+  border: 3px solid #ff913d;
+  align-items: center;
+  background: #fff; }
+  .Battery--spacedLeft {
+    margin-left: 0.5rem; }
   .Battery:after {
     width: 6px;
     height: 10px;
@@ -15,10 +18,26 @@
     left: 100%;
     top: 50%;
     transform: translateY(-50%);
-    background: black; }
+    background: #ff913d; }
   .Battery-indicator {
-    background: black;
+    background: #ffa257;
     height: 100%; }
+  .Battery-text {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    width: 100%;
+    color: #012132;
+    font-size: 0.8rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all ease 250ms; }
+  .Battery:hover .Battery-text {
+    opacity: 1;
+    visibility: visible; }
 
 .Battroid {
   position: fixed;
@@ -26,10 +45,87 @@
   right: 0;
   bottom: 0;
   transform: translateY(100%);
-  width: 320px; }
+  width: 320px;
+  background: #012132;
+  color: #fff8dc; }
   .Battroid--visible {
     transform: translateY(0); }
   .Battroid-header {
-    padding: 15px; }
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; }
   .Battroid-content {
-    padding: 15px; }
+    padding: 0 15px; }
+  .Battroid-footer {
+    padding: 0 15px 15px; }
+  .Battroid-controls {
+    display: inline-flex;
+    align-items: center; }
+    .Battroid-controls button:first-child {
+      margin-right: 0.2rem; }
+  .Battroid-button {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    color: #fff;
+    background: #ffa257;
+    width: 26px;
+    height: 26px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 200ms cubic-bezier(0.2, 0.805, 0.765, 0.995); }
+    .Battroid-button:hover {
+      background: #ff913d; }
+    .Battroid-button:focus, .Battroid-button:active {
+      background: #ffb478; }
+  .Battroid-bookmark {
+    text-decoration: underline;
+    color: #ffa257;
+    transition: all 200ms cubic-bezier(0.2, 0.805, 0.765, 0.995); }
+    .Battroid-bookmark:hover {
+      text-decoration: none;
+      color: #ff913d; }
+    .Battroid-bookmark:focus, .Battroid-bookmark:active {
+      text-decoration: none;
+      color: #ffb478; }
+  .Battroid-introduction {
+    display: flex;
+    align-items: center; }
+
+.Heading {
+  margin: 0; }
+
+.Heading--small {
+  font-size: 1.4rem;
+  line-height: 1.4; }
+
+.Heading--flexed {
+  display: inline-flex; }
+
+.Heading--spacedBottomSmall {
+  margin-bottom: 0.5rem; }
+
+.Text {
+  line-height: 1.6;
+  margin: 0; }
+
+.Text--branded {
+  color: #ffa257; }
+
+.Text--accented {
+  color: #F35418; }
+
+.Text--light {
+  color: #fff; }
+
+.Text--uppercase {
+  text-transform: uppercase; }
+
+.Text--small {
+  font-size: 0.8rem; }
+
+.Text--spacedTop {
+  margin-top: 0.5rem; }
