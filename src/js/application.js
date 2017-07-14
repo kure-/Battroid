@@ -1,16 +1,20 @@
-import 'webfontloader/webfontloader';
 import Battroid from './Battroid';
 
 const batteryWidget = document.getElementById('battroid');
 const battroidBookmark = document.getElementById('bookmark-page');
+const discardWidget = document.getElementById('battroid-discard');
+const minimizeWidgetElement = document.getElementById('battroid-minimize');
 
 const BattroidExample = new Battroid({
 	render: true,
 	template: document.getElementById('entry-template').innerHTML,
 	targetElement: '#battroid-content',
-	onLevelChange: shouldShowWidget,
-	onChargingChange: shouldShowWidget
+	onLevelChange: shouldShowWidget
 });
+
+function lessThan(value, arg) {
+
+}
 
 function shouldShowWidget(battery) {
 	if(battery.battery.level < 0.35 && !battery.battery.charging) {
@@ -32,7 +36,26 @@ function hideWidget() {
 	}
 }
 
-function bookmarkPage() {
+function minimizeWidget() {
+	if(batteryWidget) {
+		let batteryWidgetHeight = batteryWidget.offsetHeight;
+		let batteryWidgetHeaderHeight = document.querySelectorAll('.Battroid-header');
+		if(batteryWidgetHeaderHeight.length) {
+			batteryWidgetHeaderHeight = batteryWidgetHeaderHeight[0].offsetHeight;
+		} else {
+			batteryWidgetHeaderHeight = 0;
+		}
+		batteryWidget.style.bottom = (batteryWidgetHeight - batteryWidgetHeaderHeight) * -1 + 'px';
+	}
+}
+
+function maximizeWidget() {
+	if(batteryWidget) {
+		batteryWidget.style.bottom = 0;
+	}
+}
+
+function bookmarkPage(element) {
 	var bookmarkURL = window.location.href;
 	var bookmarkTitle = document.title;
 
@@ -44,11 +67,11 @@ function bookmarkPage() {
 		window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
 	} else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
 		// Firefox version >= 23 and Opera Hotlist
-		$(this).attr({
-			href: bookmarkURL,
-			title: bookmarkTitle,
-			rel: 'sidebar'
-		}).off(e);
+		if(element) {
+			element.setAttribute('href', bookmarkURL);
+			element.setAttribute('title', bookmarkTitle);
+			element.setAttribute('rel', 'sidebar');
+		}
 		return true;
 	} else if (window.external && ('AddFavorite' in window.external)) {
 		// IE Favorite
@@ -62,6 +85,25 @@ function bookmarkPage() {
 if(battroidBookmark) {
 	battroidBookmark.addEventListener('click', (e) => {
 		e.preventDefault();
-		bookmarkPage();
+		bookmarkPage(battroidBookmark);
+	});
+}
+
+if(discardWidget) {
+	discardWidget.addEventListener('click', (e) => {
+		e.preventDefault();
+		hideWidget();
+	});
+}
+
+if(minimizeWidgetElement) {
+	minimizeWidgetElement.addEventListener('click', (e) => {
+		e.preventDefault();
+		if(minimizeWidgetElement.classList.contains('Battroid-button--maximize')) {
+			maximizeWidget();
+		} else {
+			minimizeWidget();
+		}
+		minimizeWidgetElement.classList.toggle('Battroid-button--maximize');
 	});
 }

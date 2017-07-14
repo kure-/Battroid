@@ -6,6 +6,7 @@
 		<style>
 			html, body {
 				font-family: sans-serif;
+				background: #20b2aa;
 			}
 		</style>
 	</head>
@@ -18,7 +19,7 @@
 						<span class="Text Text--light">roid</span>
 					</h2>
 					<div class="Battroid-controls">
-						<button class="Battroid-button" id="battroid-minimize" title="Minimize">_</button>
+						<button class="Battroid-button Battroid-button--minimize" id="battroid-minimize" title="Minimize"></button>
 						<button class="Battroid-button" id="battroid-discard" title="Discard">✗</button>
 					</div>
 				</div>
@@ -31,17 +32,32 @@
 		</div>
 
 		<script id="entry-template" type="text/x-handlebars-template">
-			<h3 class="Heading Heading--tiny Heading--spacedBottomSmall">Hey!</h3>
-			<div class="Battroid-introduction">
-				<span>You're low on</span>
-				<div class="Battery Battery--spacedLeft {{#if data.level < 0.35}}Battery--blinking{{/if}}" title="Battery level at {{percentage data.level}}">
-					<div class="Battery-indicator" style="width: {{percentage data.level}}"></div>
-					<span class="Battery-text">{{percentage data.level}}</span>
+			{{#ifCond data.level '<' 0.35}}
+				<h3 class="Heading Heading--tiny Heading--spacedBottomSmall">Hey!</h3>
+				<div class="Battroid-introduction">
+					<span>You're low on</span>
+					<div class="Battery Battery--spacedLeft {{#ifCond data.level '<' 0.35}}Battery--blinking{{/ifCond}}" title="Battery level at {{percentage data.level}}">
+						<div class="Battery-indicator" style="width: {{percentage data.level}}"></div>
+						<span class="Battery-text">{{percentage data.level}}</span>
+					</div>
 				</div>
-			</div>
-			<p class="Battroid-copy Text Text--small Text--spacedTop">
-				And you are {{#unless data.charging}}not{{/unless}} charging your battery! You have approximately {{parseSeconds data.dischargingTime}} left untill you run out!
-			</p>
+				<p class="Battroid-copy Text Text--small Text--spacedTop">
+					You are {{#unless data.charging}}not{{/unless}} charging your device! You have approximately {{parseSeconds data.dischargingTime}} left untill you run out!
+				</p>
+			{{/ifCond}}
+			{{#ifCond data.level '>' 0.35}}
+				<h3 class="Heading Heading--tiny Heading--spacedBottomSmall">Hey!</h3>
+				<div class="Battroid-introduction">
+					<span>We're just checking your</span>
+					<div class="Battery Battery--spacedLeft" title="Battery level at {{percentage data.level}}">
+						<div class="Battery-indicator" style="width: {{percentage data.level}}"></div>
+						<span class="Battery-text">{{percentage data.level}}</span>
+					</div>
+				</div>
+				<p class="Battroid-copy Text Text--small Text--spacedTop">
+					And you are {{#unless data.charging}}not{{/unless}} charging your device :)
+				</p>
+			{{/ifCond}}
 		</script>
 		<script src="../dist/application.js"></script>
 	</body>

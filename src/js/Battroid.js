@@ -1,5 +1,4 @@
 import 'es6-promise/dist/es6-promise.auto';
-import 'js-cookie/src/js.cookie';
 import 'sizzle/dist/sizzle';
 import 'handlebars/dist/handlebars';
 import template from './templates';
@@ -74,6 +73,33 @@ export default class Battroid {
 					return (number * 100).toFixed() + '%';
 				} else {
 					return number;
+				}
+			});
+
+			Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+				switch (operator) {
+					case '==':
+						return (v1 == v2) ? options.fn(this) : options.inverse(this);
+					case '===':
+						return (v1 === v2) ? options.fn(this) : options.inverse(this);
+					case '!=':
+						return (v1 != v2) ? options.fn(this) : options.inverse(this);
+					case '!==':
+						return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+					case '<':
+						return (v1 < v2) ? options.fn(this) : options.inverse(this);
+					case '<=':
+						return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+					case '>':
+						return (v1 > v2) ? options.fn(this) : options.inverse(this);
+					case '>=':
+						return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+					case '&&':
+						return (v1 && v2) ? options.fn(this) : options.inverse(this);
+					case '||':
+						return (v1 || v2) ? options.fn(this) : options.inverse(this);
+					default:
+						return options.inverse(this);
 				}
 			});
 		}
