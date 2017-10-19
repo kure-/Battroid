@@ -1,3 +1,16 @@
+/**
+ * This example shows how the battroid class can be used in real.
+ * In the example I'm using a custom template to render the widget and binding here
+ * some actions to the widget controls.
+ * The example behaves mostly to a practical usage, so if you un/plug your laptop, it minimizes :)
+ * So in real, you might want to use such behaviour e.g. in e-shop or blog, simply to remind
+ * the visitor to do some action before he runs out of battery (bookmark page, send himself a link
+ * to email, ...).
+ * It's a shame that the Battery API will probably get removed by any time and probably Chrome
+ * and Opera are the only ones left who support it, but hey, it's pretty amazing to see and start
+ * realizing what are the functionalities and APIs in the browser to get the information about your
+ * users :-)
+ */
 import Battroid from './Battroid';
 
 const batteryWidget = document.getElementById('battroid');
@@ -12,30 +25,41 @@ const BattroidExample = new Battroid({
 	onLevelChange: shouldShowWidget
 });
 
-function lessThan(value, arg) {
-
-}
-
+/**
+ * Show widget only when battery is lower than 35% and if not charging,
+ * otherwise minimize the widget.
+ * @param  {Object} battery
+ * @return {Function}
+ */
 function shouldShowWidget(battery) {
-	if(battery.battery.level < 0.35 && !battery.battery.charging) {
-		showWidget();
+	if(battery.battery.level < 0.25 && !battery.battery.charging) {
+		return maximizeWidget();
 	} else {
-		hideWidget();
+		return minimizeWidget();
 	}
 }
 
+/**
+ * Show widget completely
+ */
 function showWidget() {
 	if(batteryWidget) {
 		batteryWidget.classList.add('Battroid--visible');
 	}
 }
 
+/**
+ * Hide widget completely
+ */
 function hideWidget() {
 	if(batteryWidget) {
 		batteryWidget.classList.remove('Battroid--visible');
 	}
 }
 
+/**
+ * Calculate the height of widget and minimize it, so the header with controls is visible
+ */
 function minimizeWidget() {
 	if(batteryWidget) {
 		let batteryWidgetHeight = batteryWidget.offsetHeight;
@@ -46,15 +70,29 @@ function minimizeWidget() {
 			batteryWidgetHeaderHeight = 0;
 		}
 		batteryWidget.style.bottom = (batteryWidgetHeight - batteryWidgetHeaderHeight) * -1 + 'px';
+		if(minimizeWidgetElement) {
+			minimizeWidgetElement.classList.add('Battroid-button--maximize');
+			minimizeWidgetElement.classList.remove('Battroid-button--minimize');
+		}
 	}
 }
 
+/**
+ * Show the widget at its full height and switch the minimize/maximize button
+ */
 function maximizeWidget() {
 	if(batteryWidget) {
 		batteryWidget.style.bottom = 0;
+		if(minimizeWidgetElement) {
+			minimizeWidgetElement.classList.remove('Battroid-button--maximize');
+			minimizeWidgetElement.classList.add('Battroid-button--minimize');
+		}
 	}
 }
 
+/**
+ * Bookmark page if supported, otherwise just show alert with instructions
+ */
 function bookmarkPage(element) {
 	var bookmarkURL = window.location.href;
 	var bookmarkTitle = document.title;
@@ -82,6 +120,9 @@ function bookmarkPage(element) {
 	}
 }
 
+/**
+ * Bind bookmark page listener
+ */
 if(battroidBookmark) {
 	battroidBookmark.addEventListener('click', (e) => {
 		e.preventDefault();
@@ -89,6 +130,9 @@ if(battroidBookmark) {
 	});
 }
 
+/**
+ * Bind discard widget listener, so its completely hidden on click
+ */
 if(discardWidget) {
 	discardWidget.addEventListener('click', (e) => {
 		e.preventDefault();
@@ -96,6 +140,9 @@ if(discardWidget) {
 	});
 }
 
+/**
+ * Bind minimize widget element to control
+ */
 if(minimizeWidgetElement) {
 	minimizeWidgetElement.addEventListener('click', (e) => {
 		e.preventDefault();
@@ -104,6 +151,5 @@ if(minimizeWidgetElement) {
 		} else {
 			minimizeWidget();
 		}
-		minimizeWidgetElement.classList.toggle('Battroid-button--maximize');
 	});
 }

@@ -8470,26 +8470,32 @@ var BattroidExample = new Battroid({
 	onLevelChange: shouldShowWidget
 });
 
+/**
+ * Show widget only when battery is lower than 35% and if not charging,
+ * otherwise minimize the widget.
+ * @param  {Object} battery
+ * @return {Function}
+ */
 function shouldShowWidget(battery) {
-	if(battery.battery.level < 0.35 && !battery.battery.charging) {
-		showWidget();
+	if(battery.battery.level < 0.25 && !battery.battery.charging) {
+		return maximizeWidget();
 	} else {
-		hideWidget();
+		return minimizeWidget();
 	}
 }
 
-function showWidget() {
-	if(batteryWidget) {
-		batteryWidget.classList.add('Battroid--visible');
-	}
-}
-
+/**
+ * Hide widget completely
+ */
 function hideWidget() {
 	if(batteryWidget) {
 		batteryWidget.classList.remove('Battroid--visible');
 	}
 }
 
+/**
+ * Calculate the height of widget and minimize it, so the header with controls is visible
+ */
 function minimizeWidget() {
 	if(batteryWidget) {
 		var batteryWidgetHeight = batteryWidget.offsetHeight;
@@ -8500,15 +8506,29 @@ function minimizeWidget() {
 			batteryWidgetHeaderHeight = 0;
 		}
 		batteryWidget.style.bottom = (batteryWidgetHeight - batteryWidgetHeaderHeight) * -1 + 'px';
+		if(minimizeWidgetElement) {
+			minimizeWidgetElement.classList.add('Battroid-button--maximize');
+			minimizeWidgetElement.classList.remove('Battroid-button--minimize');
+		}
 	}
 }
 
+/**
+ * Show the widget at its full height and switch the minimize/maximize button
+ */
 function maximizeWidget() {
 	if(batteryWidget) {
 		batteryWidget.style.bottom = 0;
+		if(minimizeWidgetElement) {
+			minimizeWidgetElement.classList.remove('Battroid-button--maximize');
+			minimizeWidgetElement.classList.add('Battroid-button--minimize');
+		}
 	}
 }
 
+/**
+ * Bookmark page if supported, otherwise just show alert with instructions
+ */
 function bookmarkPage(element) {
 	var bookmarkURL = window.location.href;
 	var bookmarkTitle = document.title;
@@ -8536,6 +8556,9 @@ function bookmarkPage(element) {
 	}
 }
 
+/**
+ * Bind bookmark page listener
+ */
 if(battroidBookmark) {
 	battroidBookmark.addEventListener('click', function (e) {
 		e.preventDefault();
@@ -8543,6 +8566,9 @@ if(battroidBookmark) {
 	});
 }
 
+/**
+ * Bind discard widget listener, so its completely hidden on click
+ */
 if(discardWidget) {
 	discardWidget.addEventListener('click', function (e) {
 		e.preventDefault();
@@ -8550,6 +8576,9 @@ if(discardWidget) {
 	});
 }
 
+/**
+ * Bind minimize widget element to control
+ */
 if(minimizeWidgetElement) {
 	minimizeWidgetElement.addEventListener('click', function (e) {
 		e.preventDefault();
@@ -8558,6 +8587,5 @@ if(minimizeWidgetElement) {
 		} else {
 			minimizeWidget();
 		}
-		minimizeWidgetElement.classList.toggle('Battroid-button--maximize');
 	});
 }
